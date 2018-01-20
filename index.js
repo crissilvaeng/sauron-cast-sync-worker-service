@@ -4,26 +4,15 @@ require('dotenv').config({
   path: './config/.env'
 })
 
-const Parser = require('rss-parser')
-const { mongoose } = require('./db/mongoose')
-const { Podcast } = require('./models/podcast')
+const amqp = require('./amqp/amqp')
+const rss = require('./rss/rss')
+const db = require('./db/db')
 
-const parser = new Parser()
+const callback = message => {
+  rss.parse(message.feed)
+    .then(podcast => db.upsert(podcast))
+    .then(record => console.info(`Podcast upsert. ID: ${record}. Feed: ${message.feed}`))
+    .catch(err => console.error(err.message))
+}
 
-parser.parseURL('https://hipsters.tech/feed/podcast/', (err, feed) => {
-  if (err) {
-    console.error('Failed to fetch podcast information. Error: ', err.message)
-    return
-  }
-
-  const conditions = {link: feed.link}
-  const options = {upsert: true, new: true }
-  Podcast.findOneAndUpdate(conditions, feed, options, (err, data) => {
-    if (err) {
-      console.error('Failed to save record to database. Error: ', err.message)
-      return
-    }
-    console.info('Podcast upserted. ID: ', data._id)
-  })
-  return
-})
+amqp.consume(callback)
