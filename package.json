@@ -1,0 +1,14 @@
+{
+  "name": "sauron-cast-sync-web-service",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "4.0.0",
+    "mongoose": "5.0.0",
+    "rss-parser": "3.0.1"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
