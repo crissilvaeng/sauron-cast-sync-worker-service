@@ -8,6 +8,8 @@ const amqp = require('./amqp/amqp')
 const rss = require('./rss/rss')
 const db = require('./db/db')
 
+console.info('Starting worker...')
+
 const callback = message => {
   rss.parse(message.feed)
     .then(podcast => db.upsert(podcast))

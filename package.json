@@ -1,7 +1,7 @@
 {
-  "name": "sauron-cast-sync-web-service",
+  "name": "sauron-cast-sync-worker-service",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "worker.js",
   "license": "MIT",
   "dependencies": {
     "amqplib": "0.5.2",
@@ -10,6 +10,6 @@
     "rss-parser": "3.0.1"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node worker.js"
   }
 }
