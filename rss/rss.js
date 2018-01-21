@@ -7,7 +7,7 @@ const parse = url => {
     new Parser().parseURL(url, (err, feed) => {
       if (err) {
         console.error(err.message)
-        reject(new Error('Failed to fetch podcast information.'))
+        reject(new Error(`Failed to fetch podcast information. Feed: ${url}`))
         return
       }
       resolve(feed)
